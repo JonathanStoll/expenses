@@ -40,7 +40,7 @@ export default function ExpenesesOutput({ expenses, expensesPeriod }) {
   return (
     <View>
       <ExpensesSummary expenses={DUMMY_EXPENSES} piriodName={expensesPeriod} />
-      <ExpensesList />
+      <ExpensesList expenses={DUMMY_EXPENSES} />
     </View>
   );
 }
