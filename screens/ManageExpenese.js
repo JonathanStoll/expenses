@@ -14,15 +14,25 @@ export default function ManageExpense({ route, navigation }) {
     });
   }, [navigation, isEditing]);
 
-  const onDeleteHandeler = () => {};
-  const onCancelHandeler = () => {};
-  const onConfirmHandeler = () => {};
+  const onDeleteHandeler = () => {
+    navigation.goBack();
+  };
+  const onCancelHandeler = () => {
+    navigation.goBack();
+  };
+  const onConfirmHandeler = () => {
+    navigation.goBack();
+  };
   return (
     <View style={styles.container}>
-        <View style={styles.buttonContainer}>
-            <Button style={styles.button} flat onPress={onCancelHandeler}>Cancel</Button>
-           < Button style={styles.button}  onPress={onConfirmHandeler}>{isEditing ? 'Update' : 'Add'}</Button>
-        </View>
+      <View style={styles.buttonContainer}>
+        <Button style={styles.button} flat onPress={onCancelHandeler}>
+          Cancel
+        </Button>
+        <Button style={styles.button} onPress={onConfirmHandeler}>
+          {isEditing ? "Update" : "Add"}
+        </Button>
+      </View>
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconButton
@@ -37,28 +47,27 @@ export default function ManageExpense({ route, navigation }) {
   );
 }
 
-
 const styles = StyleSheet.create({
-container: {
+  container: {
     flex: 1,
     padding: 24,
-    backgroundColor: GlobalStyles.colors.primary800
-},
-deleteContainer:{
+    backgroundColor: GlobalStyles.colors.primary800,
+  },
+  deleteContainer: {
     marginTop: 16,
     paddingTop: 8,
     borderRadius: 2,
     borderTopWidth: 2,
     borderTopColor: GlobalStyles.colors.primary200,
-    alignItems: 'center'
-},
-buttonContainer:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-},
-button:{
-minWidth:120,
-marginHorizontal:12
-}
-})
+    alignItems: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 12,
+  },
+});
