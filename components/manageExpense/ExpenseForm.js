@@ -10,7 +10,7 @@ export default function ExpensForm() {
       <Input
         lable="Amount"
         textInputConfig={{
-          keybordType: "decimal-pad",
+          keyboardType: "decimal-pad",
           onChangeText: amountChangeHandeler,
         }}
       />
