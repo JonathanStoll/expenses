@@ -9,8 +9,11 @@ import ExpensForm from "../components/manageExpense/ExpenseForm";
 export default function ManageExpense({ route, navigation }) {
   const expenseCtx = useContext(ExpensesContext);
   const editedID = route.params?.expenseId;
-
   const isEditing = !!editedID;
+  const selectedExpense = expenseCtx.expenses.find(
+    (expense) => expense.id === editedID
+  );
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: isEditing ? "Edit Expense" : "Add Expense",
@@ -36,10 +39,12 @@ export default function ManageExpense({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+   
       <ExpensForm
         onCancel={onCancelHandeler}
         onSubmit={onConfirmHandeler}
         submitButtonLabel={isEditing ? "Update" : "Add"}
+        defaultValue = {selectedExpense}
       />
 
       {isEditing && (
