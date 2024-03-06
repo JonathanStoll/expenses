@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Alert } from "react-native";
 import Input from "./Input";
 import Button from "../UI/Button";
 import { getFormattedDate } from "../../util/date";
+import { GlobalStyles } from "../../constents/styles";
 
 export default function ExpensForm({
   onCancel,
@@ -39,7 +40,9 @@ export default function ExpensForm({
       description: inputs.description.value,
     };
     const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
-    const dateIsValid = expenseData.date.toString() === "Invalid Date";
+    const dateIsValid =
+      expenseData.date.toString() === "Invalid Date" &&
+      expenseData.date.length > 0;
     const descriptionIsValid = expenseData.description.trim().length > 0;
     if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
       setInputs((currentInputs) => {
@@ -58,7 +61,9 @@ export default function ExpensForm({
   };
 
   const isFormValid =
-    !inputs.amount.isValid || !inputs.date.isValid || !inputs.description.isValid;
+    !inputs.amount.isValid ||
+    !inputs.date.isValid ||
+    !inputs.description.isValid;
 
   return (
     <View style={styles.form}>
@@ -66,6 +71,7 @@ export default function ExpensForm({
       <View style={styles.inputRow}>
         <Input
           lable="Amount"
+          isValid={!inputs.amount.isValid}
           textInputConfig={{
             keyboardType: "decimal-pad",
             onChangeText: inputChangeHandeler.bind(this, "amount"),
@@ -76,6 +82,7 @@ export default function ExpensForm({
 
         <Input
           lable="Date"
+          isValid={!inputs.date.isValid}
           textInputConfig={{
             placeholder: "YYYY-MM-DD",
             maxLength: 10,
@@ -87,6 +94,7 @@ export default function ExpensForm({
       </View>
       <Input
         lable="Description"
+        isValid={!inputs.description.isValid}
         textInputConfig={{
           multiline: true,
           onChangeText: inputChangeHandeler.bind(this, "description"),
@@ -94,7 +102,9 @@ export default function ExpensForm({
         }}
       />
       {isFormValid && (
-        <Text>Invalid input values - please check your enterded data!</Text>
+        <Text style={styles.errorText}>
+          Invalid input values - please check your enterded data!
+        </Text>
       )}
       <View style={styles.buttonContainer}>
         <Button style={styles.button} flat onPress={onCancel}>
@@ -134,5 +144,10 @@ const styles = StyleSheet.create({
   button: {
     minWidth: 120,
     marginHorizontal: 12,
+  },
+  errorText: {
+    textAlign: "center",
+    color: GlobalStyles.colors.error500,
+    margin: 8,
   },
 });
