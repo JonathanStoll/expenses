@@ -40,9 +40,7 @@ export default function ExpensForm({
       description: inputs.description.value,
     };
     const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
-    const dateIsValid =
-      expenseData.date.toString() === "Invalid Date" &&
-      expenseData.date.length > 0;
+    const dateIsValid = expenseData.date.toString() !== "Invalid Date";
     const descriptionIsValid = expenseData.description.trim().length > 0;
     if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
       setInputs((currentInputs) => {
