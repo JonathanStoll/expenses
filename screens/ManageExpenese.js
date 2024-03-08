@@ -28,12 +28,12 @@ export default function ManageExpense({ route, navigation }) {
   const onCancelHandeler = () => {
     navigation.goBack();
   };
-  const onConfirmHandeler = (expenseData) => {
+  const onConfirmHandeler = async (expenseData) => {
     if (isEditing) {
       expenseCtx.updateExpenses(editedID, expenseData);
     } else {
-      storeExpenses(expenseData)
-      expenseCtx.addExpenses(expenseData);
+   const id = await storeExpenses(expenseData)
+      expenseCtx.addExpenses({...expenseData, id:id});
     }
     navigation.goBack();
   };
