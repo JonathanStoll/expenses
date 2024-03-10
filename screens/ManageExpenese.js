@@ -4,7 +4,7 @@ import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constents/styles";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpensForm from "../components/manageExpense/ExpenseForm";
-import { storeExpenses } from "../util/http";
+import { deleteExpenses, storeExpenses, updateExpenses } from "../util/http";
 
 export default function ManageExpense({ route, navigation }) {
   const expenseCtx = useContext(ExpensesContext);
@@ -20,7 +20,8 @@ export default function ManageExpense({ route, navigation }) {
     });
   }, [navigation, isEditing]);
 
-  const onDeleteHandeler = () => {
+  const onDeleteHandeler = async () => {
+    await deleteExpenses(editedID);
     expenseCtx.deleteExpenses(editedID);
     navigation.goBack();
   };
@@ -31,21 +32,21 @@ export default function ManageExpense({ route, navigation }) {
   const onConfirmHandeler = async (expenseData) => {
     if (isEditing) {
       expenseCtx.updateExpenses(editedID, expenseData);
+      await updateExpenses(editedID, expenseData);
     } else {
-   const id = await storeExpenses(expenseData)
-      expenseCtx.addExpenses({...expenseData, id:id});
+      const id = await storeExpenses(expenseData);
+      expenseCtx.addExpenses({ ...expenseData, id: id });
     }
     navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-   
       <ExpensForm
         onCancel={onCancelHandeler}
         onSubmit={onConfirmHandeler}
         submitButtonLabel={isEditing ? "Update" : "Add"}
-        defaultValue = {selectedExpense}
+        defaultValue={selectedExpense}
       />
 
       {isEditing && (
