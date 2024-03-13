@@ -48,7 +48,7 @@ export default function ManageExpense({ route, navigation }) {
   if (loading) {
     return <LoadingOverlay />;
   }
-  if (!loading) {
+  if (false) {
     return <ErrorOverlay />;
   }
 
