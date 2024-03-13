@@ -6,6 +6,7 @@ import { ExpensesContext } from "../store/expenses-context";
 import ExpensForm from "../components/manageExpense/ExpenseForm";
 import { deleteExpenses, storeExpenses, updateExpenses } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 export default function ManageExpense({ route, navigation }) {
   const [loading, setLoading] = useState(false);
