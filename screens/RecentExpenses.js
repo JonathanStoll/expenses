@@ -6,23 +6,21 @@ import { getExpenses } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 
 export default function RecentExpenses() {
-    const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const expensesCtx = useContext(ExpensesContext);
   useEffect(() => {
     async function fetchExpenses() {
-        setLoading(true)
+      setLoading(true);
       const expenses = await getExpenses();
-      setLoading(false)
+      setLoading(false);
       expensesCtx.setExpenses(expenses);
     }
     fetchExpenses();
   }, []);
 
-  if(loading){
-    return <LoadingOverlay />
+  if (loading) {
+    return <LoadingOverlay />;
   }
-
-
 
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
     const today = new Date();
