@@ -1,10 +1,11 @@
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Button } from "react-native";
 import { GlobalStyles } from "../../constents/styles";
 
-export default function ErrorOverlay() {
+export default function ErrorOverlay({message}) {
   return (
     <View style={styles.container}>
-      <Text></Text>
+      <Text>An error occurred!</Text>
+      <Text>{message}</Text>
     </View>
   );
 }
@@ -17,4 +18,7 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: GlobalStyles.colors.primary700,
   },
+  text:{
+    
+  }
 });
