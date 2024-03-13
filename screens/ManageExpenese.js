@@ -48,6 +48,9 @@ export default function ManageExpense({ route, navigation }) {
   if (loading) {
     return <LoadingOverlay />;
   }
+  if (!loading) {
+    return <ErrorOverlay />;
+  }
 
   return (
     <View style={styles.container}>
