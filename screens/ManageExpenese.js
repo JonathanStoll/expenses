@@ -10,6 +10,7 @@ import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 export default function ManageExpense({ route, navigation }) {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
   const expenseCtx = useContext(ExpensesContext);
   const editedID = route.params?.expenseId;
   const isEditing = !!editedID;
@@ -25,9 +26,14 @@ export default function ManageExpense({ route, navigation }) {
 
   const onDeleteHandeler = async () => {
     setLoading(true);
-    await deleteExpenses(editedID);
-    expenseCtx.deleteExpenses(editedID);
-    navigation.goBack();
+    try {
+      await deleteExpenses(editedID);
+      expenseCtx.deleteExpenses(editedID);
+      navigation.goBack();
+    } catch (error) {
+      setError("could not delete");
+      setLoading(false);
+    }
   };
 
   const onCancelHandeler = () => {
@@ -35,21 +41,30 @@ export default function ManageExpense({ route, navigation }) {
   };
   const onConfirmHandeler = async (expenseData) => {
     setLoading(true);
-    if (isEditing) {
-      expenseCtx.updateExpenses(editedID, expenseData);
-      await updateExpenses(editedID, expenseData);
-    } else {
-      const id = await storeExpenses(expenseData);
-      expenseCtx.addExpenses({ ...expenseData, id: id });
+    try {
+      if (isEditing) {
+        expenseCtx.updateExpenses(editedID, expenseData);
+        await updateExpenses(editedID, expenseData);
+      } else {
+        const id = await storeExpenses(expenseData);
+        expenseCtx.addExpenses({ ...expenseData, id: id });
+      }
+      navigation.goBack();
+    } catch (error) {
+      setError("could not complet action");
+      setLoading(false);
     }
-    navigation.goBack();
   };
 
+  function errorHandeler() {
+    setError(null);
+  }
+
+  if (error && !loading) {
+    return <ErrorOverlay message={error} onConfirm={errorHandeler} />;
+  }
   if (loading) {
     return <LoadingOverlay />;
-  }
-  if (false) {
-    return <ErrorOverlay />;
   }
 
   return (
